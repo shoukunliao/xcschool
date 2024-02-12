@@ -8,14 +8,14 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../xuecheng-plus-parent</relativePath>
     </parent>
-    <artifactId>xuecheng-plus-content</artifactId>
-    <name>xuecheng-plus-content</name>
-    <description>xuecheng-plus-content</description>
+    <artifactId>xuecheng-plus-system</artifactId>
+    <name>xuecheng-plus-system</name>
+    <description>xuecheng-plus-system</description>
     <packaging>pom</packaging>
 
-  <modules>
-    <module>xuecheng-plus-content-api</module>
-    <module>xuecheng-plus-content-model</module>
-    <module>xuecheng-plus-content-service</module>
-   </modules>
+    <modules>
+        <module>xuecheng-plus-system-api</module>
+        <module>xuecheng-plus-system-service</module>
+        <module>xuecheng-plus-system-model</module>
+    </modules>
 </project>
