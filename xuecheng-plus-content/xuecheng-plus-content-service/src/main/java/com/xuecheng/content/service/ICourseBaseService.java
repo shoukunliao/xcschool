@@ -4,6 +4,7 @@ package com.xuecheng.content.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
+import com.xuecheng.model.dto.AddCourseDto;
 import com.xuecheng.model.dto.QueryCourseParamsDto;
 import com.xuecheng.model.po.CourseBase;
 
@@ -18,4 +19,7 @@ import com.xuecheng.model.po.CourseBase;
 public interface ICourseBaseService extends IService<CourseBase> {
 
     PageResult<CourseBase> listByQuery(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto);
+
+    CourseBase add(Long companyId, AddCourseDto addCourseDto);
+
 }

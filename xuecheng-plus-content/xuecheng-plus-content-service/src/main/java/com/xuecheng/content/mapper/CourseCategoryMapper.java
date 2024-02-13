@@ -1,7 +1,10 @@
 package com.xuecheng.content.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xuecheng.model.dto.CourseCategoryTreeDto;
 import com.xuecheng.model.po.CourseCategory;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.xuecheng.model.po.CourseCategory;
  */
 public interface CourseCategoryMapper extends BaseMapper<CourseCategory> {
 
+    List<CourseCategoryTreeDto> selectTreeNodes(String root);
 }
