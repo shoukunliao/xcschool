@@ -12,8 +12,11 @@ import com.xuecheng.content.mapper.CourseMarketMapper;
 import com.xuecheng.content.service.ICourseBaseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xuecheng.model.dto.AddCourseDto;
+import com.xuecheng.model.dto.CourseBaseInfoDto;
+import com.xuecheng.model.dto.EditCourseDto;
 import com.xuecheng.model.dto.QueryCourseParamsDto;
 import com.xuecheng.model.po.CourseBase;
+import com.xuecheng.model.po.CourseCategory;
 import com.xuecheng.model.po.CourseMarket;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -63,34 +68,34 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
     @Transactional
     @Override
     public CourseBase add(Long companyId, AddCourseDto dto) {
-        //数据校验
-        if (StringUtils.isBlank(dto.getName())) {
-            throw new XueChengPlusException("课程名称为空");
-        }
-
-        if (StringUtils.isBlank(dto.getMt())) {
-            throw new XueChengPlusException("课程分类为空");
-        }
-
-        if (StringUtils.isBlank(dto.getSt())) {
-            throw new XueChengPlusException("课程分类为空");
-        }
-
-        if (StringUtils.isBlank(dto.getGrade())) {
-            throw new XueChengPlusException("课程等级为空");
-        }
-
-        if (StringUtils.isBlank(dto.getTeachmode())) {
-            throw new XueChengPlusException("教育模式为空");
-        }
-
-        if (StringUtils.isBlank(dto.getUsers())) {
-            throw new XueChengPlusException("适应人群为空");
-        }
-
-        if (StringUtils.isBlank(dto.getCharge())) {
-            throw new XueChengPlusException("收费规则为空");
-        }
+//        //数据校验
+//        if (StringUtils.isBlank(dto.getName())) {
+//            throw new XueChengPlusException("课程名称为空");
+//        }
+//
+//        if (StringUtils.isBlank(dto.getMt())) {
+//            throw new XueChengPlusException("课程分类为空");
+//        }
+//
+//        if (StringUtils.isBlank(dto.getSt())) {
+//            throw new XueChengPlusException("课程分类为空");
+//        }
+//
+//        if (StringUtils.isBlank(dto.getGrade())) {
+//            throw new XueChengPlusException("课程等级为空");
+//        }
+//
+//        if (StringUtils.isBlank(dto.getTeachmode())) {
+//            throw new XueChengPlusException("教育模式为空");
+//        }
+//
+//        if (StringUtils.isBlank(dto.getUsers())) {
+//            throw new XueChengPlusException("适应人群为空");
+//        }
+//
+//        if (StringUtils.isBlank(dto.getCharge())) {
+//            throw new XueChengPlusException("收费规则为空");
+//        }
         //向表coursebase中插入数据
         CourseBase courseBase = new CourseBase();
         BeanUtils.copyProperties(dto,courseBase);
@@ -109,6 +114,64 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
             throw new XueChengPlusException("新增失败");
         }
         return courseBase;
+    }
+    @Autowired
+    CourseCategoryMapper courseCategoryMapper;
+    @Override
+    public CourseBaseInfoDto getCourseBaseById(Long courseId) {
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+        if (courseBase==null){
+            throw new XueChengPlusException("id为"+courseId+"的课程不存在");
+        }
+        String st = courseBase.getSt();
+        String sn = getCategoryNameById(st);
+        String mt = courseBase.getMt();
+        String mn = getCategoryNameById(mt);
+        //查询详细信息(info)
+        CourseMarket info = courseMarketMapper.selectById(courseId);
+
+        CourseBaseInfoDto courseBaseInfoDto = new CourseBaseInfoDto();
+        BeanUtils.copyProperties(courseBase,courseBaseInfoDto);
+        BeanUtils.copyProperties(info,courseBaseInfoDto);
+        courseBaseInfoDto.setMtName(mn);
+        courseBaseInfoDto.setStName(sn);
+        return courseBaseInfoDto;
+    }
+
+    @Override
+    @Transactional
+    public CourseBaseInfoDto updateCourseBaseById(Long companyId, EditCourseDto editCourseDto) {
+        //根据id查询course
+        CourseBase courseBase = getById(editCourseDto.getId());
+        if (courseBase==null){
+            throw new XueChengPlusException("该课程不存在");
+        }
+        //本机构只能修改本机构的课程信息
+        if (!Objects.equals(courseBase.getCompanyId(), companyId)){
+            throw new XueChengPlusException("本机构只能修改本机构的课程信息");
+        }
+        //编辑信息
+        BeanUtils.copyProperties(editCourseDto,courseBase);
+        courseBase.setChangeDate(LocalDateTime.now());
+        boolean b = updateById(courseBase);
+        if (!b){
+            throw new XueChengPlusException("更新失败 ");
+        }
+        //更新info表
+        CourseMarket courseMarket = new CourseMarket();
+        BeanUtils.copyProperties(editCourseDto,courseMarket);
+        int i = courseMarketMapper.updateById(courseMarket);
+        if (i<=0){
+            throw new XueChengPlusException("更新失败 ");
+        }
+        return getCourseBaseById(courseBase.getId());
+    }
+
+    private String getCategoryNameById(String st) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", st);
+        List<CourseCategory> courseCategories = courseCategoryMapper.selectByMap(map);
+        return courseCategories.get(0).getName();
     }
 
     private int insertCourseMarket(AddCourseDto dto, Long id) {
