@@ -22,4 +22,7 @@ public interface ITeachplanService extends IService<Teachplan> {
     TeachPlanDto insertOrUpdate(TeachPlanDto teachPlanDto);
 
     void deleteById(Long id);
+
+
+    void moveById(Long id, String type);
 }

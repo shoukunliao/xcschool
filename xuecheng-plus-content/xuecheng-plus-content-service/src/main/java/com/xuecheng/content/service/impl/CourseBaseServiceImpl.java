@@ -132,7 +132,10 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
 
         CourseBaseInfoDto courseBaseInfoDto = new CourseBaseInfoDto();
         BeanUtils.copyProperties(courseBase,courseBaseInfoDto);
-        BeanUtils.copyProperties(info,courseBaseInfoDto);
+        if (info!=null){
+            BeanUtils.copyProperties(info,courseBaseInfoDto);
+        }
+
         courseBaseInfoDto.setMtName(mn);
         courseBaseInfoDto.setStName(sn);
         return courseBaseInfoDto;

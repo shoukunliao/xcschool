@@ -71,33 +71,12 @@
 
     </select>
 
-    <select id="getTreeById" resultMap="TeachPlanDto">
-        select one.id             one_id,
-               one.pname          one_pname,
-               one.parentid       one_parentid,
-               one.grade          one_grade,
-               one.media_type     one_mediaType,
-               one.start_time     one_stratTime,
-               one.end_time       one_endTime,
-               one.orderby        one_orderby,
-               one.course_id      one_courseId,
-               one.course_pub_id  one_coursePubId,
-               two.id             two_id,
-               two.pname          two_pname,
-               two.parentid       two_parentid,
-               two.grade          two_grade,
-               two.media_type     two_mediaType,
-               two.start_time     two_stratTime,
-               two.end_time       two_endTime,
-               two.orderby        two_orderby,
-               two.course_id      two_courseId,
-               two.course_pub_id  two_coursePubId,
-               tm.media_fileName mediaFilename,
-               tm.id teachplanMeidaId,
-               tm.media_id mediaId from teachplan one left join teachplan two on one.id = two.parentid
-                                                      left join teachplan_media tm on one.id = tm.teachplan_id where one.parentid= #{id}
-        order by one.orderby,two.orderby
+    <select id="getChildTreeById" resultType="com.xuecheng.model.po.Teachplan">
+        select one.*
+               from teachplan one  where one.parentid= #{id} and one.course_id = #{courseId}
+        order by one.orderby
 
     </select>
+
 
 </mapper>

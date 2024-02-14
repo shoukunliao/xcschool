@@ -39,5 +39,16 @@ public class TeachPlanController {
         iTeachplanService.deleteById(id);
     }
 
+    /**
+     * Request URL: http://localhost:8601/api/content/teachplan/movedown/43
+     * Request Method: POST
+     */
+
+    @PostMapping("{movedown}/{id}")
+    public void moveDownById(@PathVariable Long id, @PathVariable(value = "movedown") String type) {
+        iTeachplanService.moveById(id, type);
+    }
+
+
 
 }

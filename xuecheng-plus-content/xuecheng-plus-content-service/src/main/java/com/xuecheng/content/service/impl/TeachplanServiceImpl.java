@@ -15,11 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.Collator;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -111,7 +111,7 @@ public class TeachplanServiceImpl extends ServiceImpl<TeachplanMapper, Teachplan
             throw new XueChengPlusException("该课程不存在");
         }
         //查询是否有子节点
-        List<TeachPlanDto> list = getTreeById(id);
+        List<Teachplan> list = getChildTreeById(id,teachplan.getCourseId());
         if (list != null && list.size() != 0) {
             throw new XueChengPlusException("存在子目录无法删除！");
         }
@@ -126,8 +126,64 @@ public class TeachplanServiceImpl extends ServiceImpl<TeachplanMapper, Teachplan
 
     }
 
-    private List<TeachPlanDto> getTreeById(Long id) {
-        List<TeachPlanDto> list = this.getBaseMapper().getTreeById(id);
+    /**
+     * 上下移动章节
+     *
+     * @param id
+     */
+    @Override
+    public void moveById(Long id, String type) {
+
+        //查询该计划
+        Teachplan teachplan = getById(id);
+        if (teachplan == null) {
+            throw new XueChengPlusException("该课程存在");
+        }
+        //查询兄弟节点
+        List<Teachplan> list = this.getBaseMapper().getChildTreeById(teachplan.getParentid(),teachplan.getCourseId());
+        if (list.size() <= 1) {
+            return;
+        }
+        int i = list.indexOf(teachplan);
+        Teachplan TeachPlanDto;
+        if ("movedown".equals(type)) {
+            //向下移动
+            if (i == list.size() - 1) return;
+            else {
+                 TeachPlanDto = list.get(i + 1);
+            }
+        } else {
+            //向上移动
+            if (i == 0) return;
+            else {
+                 TeachPlanDto = list.get(i - 1);
+            }
+        }
+
+        swap(teachplan, TeachPlanDto);
+        //批量修改
+        ArrayList<Teachplan> teachplans = new ArrayList<>();
+        teachplans.add(teachplan);
+        teachplans.add(TeachPlanDto);
+        boolean b = updateBatchById(teachplans);
+        if (!b) {
+            throw new XueChengPlusException("移动失败");
+        }
+
+
+    }
+
+    private void swap(Teachplan teachplan, Teachplan TeachPlanDto) {
+        Integer one = teachplan.getOrderby();
+        Integer two = TeachPlanDto.getOrderby();
+        //交换
+        teachplan.setOrderby(two);
+        TeachPlanDto.setOrderby(one);
+    }
+
+
+    private List<Teachplan> getChildTreeById(Long id,Long courseId) {
+        List<Teachplan> list = this.getBaseMapper().getChildTreeById(id,courseId);
         return list;
     }
 

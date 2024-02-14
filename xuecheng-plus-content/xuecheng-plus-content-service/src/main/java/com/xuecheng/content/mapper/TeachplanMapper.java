@@ -24,5 +24,7 @@ public interface TeachplanMapper extends BaseMapper<Teachplan> {
     @Select("select count(*) from teachplan where parentId = #{parentId} and course_id = #{courseId}")
     int getCountByParentId(@Param("parentId") Long parentId,@Param("courseId") Long courseId);
 
-    List<TeachPlanDto> getTreeById(Long id);
+    List<Teachplan> getChildTreeById(Long id,Long courseId);
+
+
 }
