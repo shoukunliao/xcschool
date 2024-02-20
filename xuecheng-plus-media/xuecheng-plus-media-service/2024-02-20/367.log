@@ -1,0 +1,38 @@
+2024-02-20 14:22:35 [com.xxl.job.core.thread.JobThread#run]-[133]-[xxl-job, JobThread-4-1708410140016] <br>----------- xxl-job job execute start -----------<br>----------- Param:
+2024-02-20 14:22:35 [com.xxl.job.core.thread.JobThread#run]-[204]-[xxl-job, JobThread-4-1708410140016] <br>----------- JobThread Exception:java.lang.reflect.InvocationTargetException
+	at sun.reflect.GeneratedMethodAccessor75.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.xxl.job.core.handler.impl.MethodJobHandler.execute(MethodJobHandler.java:31)
+	at com.xxl.job.core.thread.JobThread.run(JobThread.java:166)
+Caused by: org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.binding.BindingException: Parameter 'shardTotal' not found. Available parameters are [arg2, arg1, arg0, param3, param1, param2]
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:92)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:440)
+	at com.sun.proxy.$Proxy91.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:223)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.executeForMany(MybatisMapperMethod.java:173)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:78)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:148)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at com.sun.proxy.$Proxy100.getAvailableProcesses(Unknown Source)
+	at com.xuecheng.media.service.impl.MediaProcessServiceImpl.getAvailableProcesses(MediaProcessServiceImpl.java:17)
+	at com.xuecheng.media.service.jobhandler.TranscodeProcessor.transcodeHandle(TranscodeProcessor.java:60)
+	... 5 more
+Caused by: org.apache.ibatis.binding.BindingException: Parameter 'shardTotal' not found. Available parameters are [arg2, arg1, arg0, param3, param1, param2]
+	at org.apache.ibatis.binding.MapperMethod$ParamMap.get(MapperMethod.java:212)
+	at org.apache.ibatis.reflection.wrapper.MapWrapper.get(MapWrapper.java:45)
+	at org.apache.ibatis.reflection.MetaObject.getValue(MetaObject.java:122)
+	at com.baomidou.mybatisplus.core.executor.AbstractBaseExecutor.createCacheKey(AbstractBaseExecutor.java:76)
+	at com.baomidou.mybatisplus.core.executor.MybatisCachingExecutor.createCacheKey(MybatisCachingExecutor.java:250)
+	at com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor.intercept(MybatisPlusInterceptor.java:64)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:61)
+	at com.sun.proxy.$Proxy152.query(Unknown Source)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:140)
+	at sun.reflect.GeneratedMethodAccessor76.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:426)
+	... 14 more
+<br>----------- xxl-job job execute end(error) -----------
+2024-02-20 14:22:35 [com.xxl.job.core.thread.TriggerCallbackThread#callbackLog]-[197]-[xxl-job, executor TriggerCallbackThread] <br>----------- xxl-job job callback finish.

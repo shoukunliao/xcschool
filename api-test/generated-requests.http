@@ -1,12 +1,12 @@
 GET {{content_host}}/content/course-category/tree-nodes?root=1
 
 ###
-POST {{content_host}}/content/course/list?pageNo=1&pageSize=2
+POST {{gateway_host}}/content/course/list?pageNo=1&pageSize=2
 content-type: application/json
 
 {
   "auditStatus": "",
-  "courseName": "java",
+  "courseName": "",
   "publishStatus": ""
 }
 ### 创建课程
@@ -33,7 +33,17 @@ Content-Type: application/json
 }
 
 ### 根据id查询课程信息
-GET {{content_host}}/content/course/40
+GET {{gateway_host}}/content/course/40
 
 ### 根据id删除课程计划
 DELETE {{content_host}}/content/teachplan/296
+
+### 上传测试
+POST {{media_host}}/media/upload/coursefile
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="filedata"; filename="Snipaste_2024-02-17_10-29-12.png"
+Content-Type: application/octet-stream
+
+< C:\Users\li'ao's'k\Desktop\Snipaste_2024-02-17_10-29-12.png

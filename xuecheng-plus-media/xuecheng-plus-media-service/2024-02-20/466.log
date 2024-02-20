@@ -1,0 +1,19 @@
+2024-02-20 14:32:45 [com.xxl.job.core.thread.JobThread#run]-[133]-[xxl-job, JobThread-4-1708410758859] <br>----------- xxl-job job execute start -----------<br>----------- Param:
+2024-02-20 14:32:45 [com.xxl.job.core.thread.JobThread#run]-[204]-[xxl-job, JobThread-4-1708410758859] <br>----------- JobThread Exception:java.lang.reflect.InvocationTargetException
+	at sun.reflect.GeneratedMethodAccessor73.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.xxl.job.core.handler.impl.MethodJobHandler.execute(MethodJobHandler.java:31)
+	at com.xxl.job.core.thread.JobThread.run(JobThread.java:166)
+Caused by: java.lang.NullPointerException
+	at com.xuecheng.media.service.jobhandler.TranscodeProcessor.transcodeHandle(TranscodeProcessor.java:69)
+	... 5 more
+<br>----------- xxl-job job execute end(error) -----------
+2024-02-20 14:32:45 [com.xxl.job.core.thread.TriggerCallbackThread#callbackLog]-[197]-[xxl-job, executor TriggerCallbackThread] <br>----------- xxl-job job callback finish.
+2024-02-20 14:32:48 [com.xxl.job.core.thread.JobThread#run]-[194]-[xxl-job, JobThread-4-1708410758859] <br>----------- JobThread toStop, stopReason:web container destroy and kill the job.
+2024-02-20 14:32:48 [com.xxl.job.core.thread.JobThread#run]-[204]-[xxl-job, JobThread-4-1708410758859] <br>----------- JobThread Exception:java.lang.InterruptedException
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.reportInterruptAfterWait(AbstractQueuedSynchronizer.java:2014)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2088)
+	at java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+	at com.xxl.job.core.thread.JobThread.run(JobThread.java:114)
+<br>----------- xxl-job job execute end(error) -----------

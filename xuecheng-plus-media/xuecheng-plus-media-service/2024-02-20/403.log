@@ -1,0 +1,14 @@
+2024-02-20 14:28:35 [com.xxl.job.core.thread.JobThread#run]-[133]-[xxl-job, JobThread-4-1708410515740] <br>----------- xxl-job job execute start -----------<br>----------- Param:
+2024-02-20 14:28:35 [com.xxl.job.core.thread.JobThread#run]-[194]-[xxl-job, JobThread-4-1708410515740] <br>----------- JobThread toStop, stopReason:block strategy effect：Cover Early
+2024-02-20 14:28:35 [com.xxl.job.core.thread.JobThread#run]-[204]-[xxl-job, JobThread-4-1708410515740] <br>----------- JobThread Exception:java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.xxl.job.core.handler.impl.MethodJobHandler.execute(MethodJobHandler.java:31)
+	at com.xxl.job.core.thread.JobThread.run(JobThread.java:166)
+Caused by: java.lang.NullPointerException
+	at com.xuecheng.media.service.jobhandler.TranscodeProcessor.transcodeHandle(TranscodeProcessor.java:69)
+	... 6 more
+<br>----------- xxl-job job execute end(error) -----------
+2024-02-20 14:28:35 [com.xxl.job.core.thread.TriggerCallbackThread#callbackLog]-[197]-[xxl-job, executor TriggerCallbackThread] <br>----------- xxl-job job callback finish.
